@@ -1,0 +1,12 @@
+.land
+{
+    fill-opacity: 1;
+    stroke-opacity: 1;
+    stroke-width:0.5;
+}
+
+#map{
+    height-max:100%;
+    width:100%;
+    width-max:100%;
+}
