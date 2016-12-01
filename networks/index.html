@@ -10,6 +10,12 @@
   pointer-events: none;
   font: 10px sans-serif;
 }
+
+.nodes circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
 svg{
   width:100%;
 }
@@ -83,6 +89,8 @@ d3.json("http://ading999.github.io/networks/data/networks.json", function(error,
 
   node.append("circle")
       .attr("r", 5)
+      .style("stroke", "#fff")
+      .style("stroke-width", 1.5)
       .attr("fill", function(d) { return category_color(d.group); })
 
   node.append("text")
