@@ -1,0 +1,69 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Drawdown</title>
+  <link rel="stylesheet" href="../static/graph.css" /> 
+  <link rel="stylesheet" href="../static/style.css" /> 
+  <link rel="stylesheet" href="../static/jquery-ui.min.css" />  
+</head>
+
+<body>
+<div id='background'>
+  <br>
+  <div id="graph" style="display:none;"></div>
+  <div id = "result_wrapper" style="display:none;">
+          <div id="zoom_slider"></div>
+          <div ><span style="float:right;margin:15px;"><input id ="highlight" type="checkbox" checked>
+          <label for="highlight">Highlight Periods</label></span></div>
+          <div id="header_row"></div>
+          <div id="table"></div>
+          <div id='download_area'>
+                  <br><button type="button" id="download_button" >DOWNLOAD</button><br>
+          </div>
+  </div>
+<div class="container" >
+
+      <h2>Ticker</h2>
+      <input type="text" id="ticker">
+
+      <h2>Threshold</h2>
+      <div id="radiogroup">
+              <div id='appcycle'><input type="radio" id="radio_app" name="radio" checked="checked"><label for="radio_app">Go up</label>
+                      <input type="text" id="targetval"><label for="radio_app"> without going down</label>
+                      <input type="text" id="stopval"><span class="unit">%</span>
+              </div>
+              <div id='depcycle'><input type="radio" id="radio_dep" name="radio" ><label for="radio_dep">Go down</label>
+                      <input type="text" id="targetval1"><label for="radio_dep"> without going up</label>
+                      <input type="text" id="stopval1"><span class="unit">%</span>
+              </div>
+      </div>
+
+
+      <h2>Mode</h2>
+
+      <div id="pctradiogroup">
+              <input type="radio" id="radio_pct" name="radio1" checked="checked"><label for="radio_pct">Percent Change</label>
+              <input type="radio" id="radio_abs" name="radio1" ><label for="radio_abs">Absolute Change</label>
+      </div>
+      <button type="button" id="gobutton">GO</button><br><br><br><br>
+
+      <div id="parameters" class="subcontainer" style="display: none">    
+
+              <h2>Start Date</h2>
+              <input type="Date" id="bdate" class = 'date_parameter'>
+              <h2>End Date</h2>
+              <input type="Date" id="edate" class="date_parameter">        
+              <br><br><br><button type="button" id="updatebutton">Update</button><br><br><br><br>
+      </div>
+  </div>
+</div>
+
+<script src="../static/d3.v3.min.js"></script>
+<script src="../static/jquery-3.0.0.min.js"></script>
+<script src="../static/jquery-ui.min.js"></script>
+<script src="../static/drawdown.js"></script>
+
+</body>
+</html>
