@@ -1,17 +1,16 @@
-var svg = d3.select("svg")
 
-var width = $("#graph").parent().width()*0.9
 var m = $("#graph").parent().width()*0.05
-var height = 800 - m * 2
+var height = 600 - m * 2; // height
+var width = $("#graph").parent().width()*0.9
+
 
 var svg = d3.select("#graph").append("svg:svg")
             .attr("height", height + m * 2)
             .append("svg:g")
             .attr("width",width)
-            .attr("transform", "translate(" + m + "," + m + ")");
+            .attr("transform", "translate("+m+"," +m+")");
 
 var color = d3.scaleOrdinal(d3.schemeCategory20);
-
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.id; }))
     .force("charge", d3.forceManyBody())
@@ -27,21 +26,28 @@ d3.json("http://ading999.github.io/networks/data/data.json", function(error, gra
     .enter().append("line")
       .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
 
-  var node = svg.append("g")
-      .attr("class", "nodes")
-    .selectAll("circle")
-    .data(graph.nodes)
-    .enter().append("circle")
-      .attr("r", 5)
-      .attr("fill", function(d) { return color(d.group); })
-      .call(d3.drag()
+var nodes = svg.selectAll("circle")
+                    .data(dataset.nodes)
+                    .enter()
+                    .append("circle")
+                    .attr("r", 10)
+                    .style("fill", function(d, i){
+                        return colors(i);
+                    })
+                    .call(d3.drag()
           .on("start", dragstarted)
           .on("drag", dragged)
           .on("end", dragended));
 
-  node.append("title")
-      .text(function(d) { return d.id; });
-
+var label = svg.selectAll(".text")
+                    .data(graph.nodes)
+                    .enter()
+                    .append("text")
+                    .text(function (d) { return d.id; })
+                    .style("text-anchor", "middle")
+                    .style("fill", "#555")
+                    .style("font-family", "Arial")
+                    .style("font-size", 12);
   simulation
       .nodes(graph.nodes)
       .on("tick", ticked);
@@ -78,3 +84,4 @@ function dragended(d) {
   d.fx = null;
   d.fy = null;
 }
+
