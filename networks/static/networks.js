@@ -1,17 +1,14 @@
 var svg = d3.select("svg")
 
+var width = $("#graph").parent().width()*0.9
 var m = $("#graph").parent().width()*0.05
-var h = 400 - m * 2
-var w = $("#graph").parent().width()*0.9
+var height = 800 - m * 2
 
 var svg = d3.select("#graph").append("svg:svg")
-            .attr("height", h + m*2)
+            .attr("height", height + m * 2)
             .append("svg:g")
-            .attr("width",w)
-            .attr("transform", "translate("+m+"," +m+")");
-width = +svg.attr("width"),
-height = +svg.attr("height");
-
+            .attr("width",width)
+            .attr("transform", "translate(" + m + "," + m + ")");
 
 var color = d3.scaleOrdinal(d3.schemeCategory20);
 
