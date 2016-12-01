@@ -63,7 +63,7 @@ var color = d3.scale.ordinal(d3.schemeCategory20);
 
 d3.json("http://ading999.github.io/networks/data/networks.json", function(error, json) {
   if (error) throw error;
-
+  console.log(json)
   force
       .nodes(json.nodes)
       .links(json.links)
