@@ -16,15 +16,15 @@ var simulation = d3.forceSimulation()
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
 
-d3.json("http://ading999.github.io/networks/data/data.json", function(error, graph) {
+d3.json("http://ading999.github.io/networks/data/data.json", function(error, dataset) {
   if (error) throw error;
 
   var link = svg.append("g")
       .attr("class", "links")
     .selectAll("line")
-    .data(graph.links)
+    .data(dataset.links)
     .enter().append("line")
-      .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+      .attr("stroke-width", function(d) { return Math.sqrt(d.weight); });
 
 var nodes = svg.selectAll("circle")
                     .data(dataset.nodes)
@@ -40,7 +40,7 @@ var nodes = svg.selectAll("circle")
           .on("end", dragended));
 
 var label = svg.selectAll(".text")
-                    .data(graph.nodes)
+                    .data(dataset.nodes)
                     .enter()
                     .append("text")
                     .text(function (d) { return d.id; })
@@ -49,11 +49,11 @@ var label = svg.selectAll(".text")
                     .style("font-family", "Arial")
                     .style("font-size", 12);
   simulation
-      .nodes(graph.nodes)
+      .nodes(dataset.nodes)
       .on("tick", ticked);
 
   simulation.force("link")
-      .links(graph.links);
+      .links(dataset.links);
 
   function ticked() {
     link
