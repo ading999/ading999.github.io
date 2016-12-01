@@ -1,25 +1,99 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
 
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Industry Networks and Speed of Information Flow</title>
-  <link rel="stylesheet" href="../networks/static/graph.css" /> 
-  <link rel="stylesheet" href="../networks/static/style.css" /> 
-  <link rel="stylesheet" href="../networks/static/jquery-ui.min.css" />  
-</head>
+.link {
+  stroke: #ccc;
+}
 
+.node text {
+  pointer-events: none;
+  font: 10px sans-serif;
+}
+svg{
+  width:100%;
+}
+
+body {
+  font-family: Verdana,Arial,sans-serif;
+  background-color:#f1f1f1;
+}
+
+#background{
+  width:80%;
+  margin:0 auto;
+  background: #FFFFFF;
+  -webkit-box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
+}
+
+
+</style>
 <body>
 <div id='background'>
   <br>
   <div id="graph"></div>
-
+</div>
 <script
-  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
-  integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="../networks/static/networks.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.0.0/d3.min.js"></script>
+<script>
 
-</body>
-</html>
+
+var m = $("#graph").parent().width()*0.05
+var height = 600 - m*2; // height
+var width = $("#graph").parent().width()*0.9
+
+var svg = d3.select("#graph").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var force = d3.layout.force()
+    .gravity(0.05)
+    .distance(100)
+    .charge(-100)
+    .size([width, height]);
+
+d3.json("http://ading999.github.io/networks/data/data.json", function(error, json) {
+  if (error) throw error;
+
+  force
+      .nodes(json.nodes)
+      .links(json.links)
+      .start();
+
+  var link = svg.selectAll(".link")
+      .data(json.links)
+    .enter().append("line")
+      .attr("class", "link");
+
+  var node = svg.selectAll(".node")
+      .data(json.nodes)
+    .enter().append("g")
+      .attr("class", "node")
+      .call(force.drag);
+
+  node.append("image")
+      .attr("xlink:href", "https://github.com/favicon.ico")
+      .attr("x", -8)
+      .attr("y", -8)
+      .attr("width", 16)
+      .attr("height", 16);
+
+  node.append("text")
+      .attr("dx", 12)
+      .attr("dy", ".35em")
+      .text(function(d) { return d.name });
+
+  force.on("tick", function() {
+    link.attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+  });
+});
+
+</script>
