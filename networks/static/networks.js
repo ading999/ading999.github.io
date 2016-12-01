@@ -1,21 +1,7 @@
- DEFAULT_DISPLAY_COLS = ['Start Date','Peak Date','End Date', 'Start Value',
-                        'Peak Value','End Value','Peak Return','Stop Loss','HPR']
 
  $('#appcycle').click(function(){
     $("#radio_app").prop( "checked", true );
  });
-
-  $('#depcycle').click(function(){
-    $("#radio_dep").prop( "checked", true );
- });
-
-  $('#radio_pct').change(function(){
-    $('.unit').text("%");
-  });
-
-  $('#radio_abs').change(function(){
-    $('.unit').text("bps");
-  });
 
 function get_date_params(){
   var bdate = $('#bdate').val();
@@ -24,62 +10,7 @@ function get_date_params(){
 }
 
 
- function get_threshold(){
-
-    if ($('#radio_app').is(":checked")){
-        return [$("#targetval").val()/100.0,$("#stopval").val()/100.0];
-    }
-    else{
-      return [$("#targetval1").val()/100,$("#stopval1").val()/100];
-    }
-  }
-
-  var b_slide;
-  var e_slide;
-    $("#updatebutton").click(function(){
-      update();
-    });
-    $("#parameters").hide();
-    $("#gobutton").click(function(){
-        init()
-    });
-    $("#ticker").on('input',function(){
-      $("#parameters").hide();
-    });
-
-    function init(){
-        var ticker = $("#ticker").val();
-        var thresholds = get_threshold();
-        var start = 0;
-        var end=-1;
-        var growth = $('#radio_app').is(":checked");
-        var pct_chg = $('#radio_pct').is(":checked");
-        if (pct_chg){
-            getdata(ticker,growth,1,thresholds[0],thresholds[1],start,end,true);
-        }
-        else{
-            getdata(ticker,growth,0,thresholds[0],thresholds[1],start,end,true);
-        }
-        $("#parameters").show(); 
-        }
-
-
-    function update(){
-      var ticker = $("#ticker").val();
-      var thresholds = get_threshold();
-      date_params = get_date_params();
-      var start = date_params[0]
-      var end = date_params[1]
-      var growth = $('#radio_app').is(":checked")
-      var pct_chg = $('#radio_pct').is(":checked");
-
-      if (pct_chg){
-        getdata(ticker,growth,1,thresholds[0],thresholds[1],start,end,false);
-      }
-      else{
-        getdata(ticker,growth,0,thresholds[0],thresholds[1],start,end,false);
-      }
-    }
+  alert('hello!')
 
     function getdata(ticker,growth,pct_change,target,stop,begin_idx,end_idx,init=false){
       var cycle = growth?1:0;
