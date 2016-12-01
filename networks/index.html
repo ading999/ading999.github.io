@@ -61,7 +61,7 @@ var force = d3.layout.force()
 
 var color = d3.scale.ordinal(d3.schemeCategory20);
 
-d3.json("http://ading999.github.io/networks/data/data.json", function(error, json) {
+d3.json("http://ading999.github.io/networks/data/networks.json", function(error, json) {
   if (error) throw error;
 
   force
