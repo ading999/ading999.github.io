@@ -40,9 +40,13 @@ body {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.0.0/d3.min.js"></script>
 <script>
 
-
+var category_color = function(group){
+    var n = group % 5;
+    var colors = ["red", "orange", "yellow", "cyan", "blue"]
+    return colors[n]
+}
 var m = $("#graph").parent().width()*0.05
-var height = 600 - m*2; // height
+var height = 850 - m * 2; // height
 var width = $("#graph").parent().width()*0.9
 
 var svg = d3.select("#graph").append("svg")
@@ -54,6 +58,8 @@ var force = d3.layout.force()
     .distance(100)
     .charge(-100)
     .size([width, height]);
+
+var color = d3.scale.ordinal(d3.schemeCategory20);
 
 d3.json("http://ading999.github.io/networks/data/data.json", function(error, json) {
   if (error) throw error;
@@ -74,12 +80,10 @@ d3.json("http://ading999.github.io/networks/data/data.json", function(error, jso
       .attr("class", "node")
       .call(force.drag);
 
-  node.append("image")
-      .attr("xlink:href", "https://github.com/favicon.ico")
-      .attr("x", -8)
-      .attr("y", -8)
-      .attr("width", 16)
-      .attr("height", 16);
+
+  node.append("circle")
+      .attr("r", 5)
+      .attr("fill", function(d) { return category_color(d.group); })
 
   node.append("text")
       .attr("dx", 12)
